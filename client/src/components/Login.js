@@ -45,6 +45,8 @@ const onSubmit = event => {
 }
 
 /* ------------------------------------------------- */
+// need to return the form and display the input strings
+// also need to apply a component to invoke handleChange and onSubmit
 
   return (
     <>
