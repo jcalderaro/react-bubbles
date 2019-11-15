@@ -23,15 +23,15 @@ const BubblePage = () => {
 
   useEffect(() => {
     axiosWithAuth()
-    .get("http://localhost:5000/api/colors")
-    .then(response => {
-      console.log("Get Response", response.data)
-      setColorList(response.data)
-      console.log("colorList", colorList)
-    })
-    .catch(error => {
-      console.log("Get Error", error)
-    })
+      .get("http://localhost:5000/api/colors")
+      .then(response => {
+        console.log("Get Response", response.data)
+        setColorList(response.data)
+        console.log("colorList", colorList)
+      })
+      .catch(error => {
+        console.log("Get Error", error)
+      })
   }, [])
 
   return (
