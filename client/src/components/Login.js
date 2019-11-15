@@ -1,14 +1,14 @@
 /* ------------------------------------------------- */
 
-import React from "react";
+import React, { useState } from "react";
 
 /* ------------------------------------------------- */
 // adding import
-import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { axiosWithAuth } from "../utilities/axiosWithAuth";
 
 /* ------------------------------------------------- */
 
-const Login = () => {
+const Login = props => {
   // make a post request to retrieve a token from the api
   // when you have handled the token, navigate to the BubblePage route
   const [credentials, setCredentials] = useState({ username: '', password: '' })
@@ -52,6 +52,8 @@ const Login = () => {
     <>
       <h1>Welcome to the Bubble App!</h1>
       <p>Build a login page here</p>
+      {/* <p>Username: Lambda School</p>
+      <p>Password: "i lessthan3 Lambd4"</p> */}
       <div>
 
         <form onSubmit={onSubmit}>
