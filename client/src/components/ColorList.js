@@ -1,31 +1,74 @@
+/* ------------------------------------------------- */
+// added axios import
 import React, { useState } from "react";
-import axios from "axios";
+import { axiosWithAuth } from "../utilities/axiosWithAuth";
 
+/* ------------------------------------------------- */
+// this is good
 const initialColor = {
   color: "",
   code: { hex: "" }
 };
 
+/* ------------------------------------------------- */
+// this is good
 const ColorList = ({ colors, updateColors }) => {
-  console.log(colors);
   const [editing, setEditing] = useState(false);
   const [colorToEdit, setColorToEdit] = useState(initialColor);
 
+  /* ------------------------------------------------- */
+  // this is good
   const editColor = color => {
     setEditing(true);
     setColorToEdit(color);
   };
 
+  /* ------------------------------------------------- */
+  // Make a put request to save your updated color
+  // think about where will you get the id from...
+  // where is is saved right now?
+
   const saveEdit = e => {
     e.preventDefault();
-    // Make a put request to save your updated color
-    // think about where will you get the id from...
-    // where is is saved right now?
+    axiosWithAuth()
+      .put(`http://localhost:5000/api/colors/${colorToEdit.id}`, colorToEdit)
+      .then(response => {
+        console.log("Put List Response", response)
+        updateColors(colors.map(color => {
+          if (color.id === response.data.id) {
+            return response.data
+          } else {
+            return color
+          }
+        }))
+      })
+      .catch(error => {
+        console.log("", error)
+      })
   };
 
+  /* ------------------------------------------------- */
+  // make a delete request to delete this color
+
   const deleteColor = color => {
-    // make a delete request to delete this color
+    axiosWithAuth()
+      .delete(`http://localhost:5000/api/colors/${color.id}`)
+      .then(response => {
+        console.log("Delete Response", response)
+        updateColors(colors.filter(color => {
+          //if color id does not match response.data return response.data
+          if (color.id !== response.data) {
+            return response.data
+          }
+        }))
+      })
+      .catch(error => {
+        console.log(error.response)
+      })
   };
+
+  /* ------------------------------------------------- */
+  // this is good
 
   return (
     <div className="colors-wrap">
@@ -34,12 +77,8 @@ const ColorList = ({ colors, updateColors }) => {
         {colors.map(color => (
           <li key={color.color} onClick={() => editColor(color)}>
             <span>
-              <span className="delete" onClick={e => {
-                    e.stopPropagation();
-                    deleteColor(color)
-                  }
-                }>
-                  x
+              <span className="delete" onClick={() => deleteColor(color)}>
+                x
               </span>{" "}
               {color.color}
             </span>
@@ -86,4 +125,8 @@ const ColorList = ({ colors, updateColors }) => {
   );
 };
 
+/* ------------------------------------------------- */
+
 export default ColorList;
+
+/* ------------------------------------------------- */
